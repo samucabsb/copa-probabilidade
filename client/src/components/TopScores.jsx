@@ -10,9 +10,7 @@ export function TopScores({ prediction }) {
             <span>#{index + 1} · {prediction.homeTeam.displayName} {score.home}–{score.away} {prediction.awayTeam.displayName}</span>
             <span>{percent(score.probability)}</span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-slate-200">
-            <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-lime-400 to-amber-400" style={{ width: `${Math.min(score.probability * 6, 100)}%` }} />
-          </div>
+          <div className="h-2 overflow-hidden rounded-full bg-slate-200"><div className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-lime-400 to-amber-400" style={{ width: `${Math.min(score.probability * 6, 100)}%` }} /></div>
         </div>
       ))}
     </Panel>

@@ -1,0 +1,1 @@
+import'dotenv/config';import{initializeDatabase}from'../database/initializeDatabase.js';import{modelRepository}from'../repositories/modelRepository.js';await initializeDatabase();console.log(JSON.stringify(modelRepository.listMetrics(10),null,2));

@@ -1,17 +1,1 @@
-export function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
-}
-
-export function factorial(n) {
-  let result = 1;
-  for (let i = 2; i <= n; i += 1) result *= i;
-  return result;
-}
-
-export function poisson(k, lambda) {
-  return (Math.exp(-lambda) * Math.pow(lambda, k)) / factorial(k);
-}
-
-export function toPercent(value) {
-  return Number((value * 100).toFixed(2));
-}
+export const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));export function factorial(n){let r=1;for(let i=2;i<=n;i++)r*=i;return r;}export const poisson=(k,l)=>(Math.exp(-l)*Math.pow(l,k))/factorial(k);export const toPercent=v=>Number((v*100).toFixed(2));

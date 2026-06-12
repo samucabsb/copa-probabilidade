@@ -1,11 +1,1 @@
-export function notFoundHandler(req, res) {
-  res.status(404).json({ error: 'Rota não encontrada.' });
-}
-
-export function errorHandler(error, req, res, next) {
-  const statusCode = error.statusCode || 500;
-  res.status(statusCode).json({
-    error: statusCode >= 500 ? 'Erro interno do servidor.' : error.message,
-    detail: process.env.NODE_ENV === 'production' ? undefined : error.message
-  });
-}
+export const notFoundHandler=(req,res)=>res.status(404).json({error:'Rota não encontrada.'});export function errorHandler(error,req,res,next){const status=error.statusCode||500;res.status(status).json({error:status>=500?'Erro interno do servidor.':error.message,detail:process.env.NODE_ENV==='production'?undefined:error.message});}

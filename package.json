@@ -1,13 +1,18 @@
 {
-  "name": "copa-probabilidade-final",
-  "version": "1.0.0",
+  "name": "copa-probabilidade",
+  "version": "1.0.2",
   "private": true,
-  "description": "Sistema full-stack para previsão probabilística de placares entre seleções da Copa.",
+  "description": "Previsor probabilístico avançado de placares entre seleções.",
   "scripts": {
     "install:all": "npm install && npm install --prefix server && npm install --prefix client",
     "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
     "start": "npm run start --prefix server",
-    "check": "npm run check --prefix server"
+    "check": "npm run check --prefix server && npm run build --prefix client",
+    "test": "npm run test --prefix server",
+    "backtest": "npm run backtest --prefix server",
+    "optimize": "npm run optimize --prefix server",
+    "metrics": "npm run metrics --prefix server",
+    "import:matches": "npm run import:matches --prefix server"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

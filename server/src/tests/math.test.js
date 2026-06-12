@@ -1,0 +1,1 @@
+import test from'node:test';import assert from'node:assert/strict';import{poisson,clamp}from'../utils/math.js';test('poisson returns valid probability',()=>{assert.ok(poisson(1,1.2)>0);assert.ok(poisson(1,1.2)<1);});test('clamp limits values',()=>{assert.equal(clamp(10,0,5),5);assert.equal(clamp(-1,0,5),0);});

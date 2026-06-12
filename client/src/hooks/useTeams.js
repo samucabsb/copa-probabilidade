@@ -10,15 +10,9 @@ export function useTeams() {
     let isMounted = true;
     setIsLoading(true);
     fetchTeams()
-      .then(data => {
-        if (isMounted) setTeams(data.sort((a, b) => a.displayName.localeCompare(b.displayName, 'pt-BR')));
-      })
-      .catch(err => {
-        if (isMounted) setError(err.message);
-      })
-      .finally(() => {
-        if (isMounted) setIsLoading(false);
-      });
+      .then(data => { if (isMounted) setTeams(data.sort((a, b) => a.displayName.localeCompare(b.displayName, 'pt-BR'))); })
+      .catch(err => { if (isMounted) setError(err.message); })
+      .finally(() => { if (isMounted) setIsLoading(false); });
     return () => { isMounted = false; };
   }, []);
 

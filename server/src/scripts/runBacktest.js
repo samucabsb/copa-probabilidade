@@ -1,0 +1,1 @@
+import'dotenv/config';import{initializeDatabase}from'../database/initializeDatabase.js';import{backtestService}from'../services/backtestService.js';await initializeDatabase();console.log(JSON.stringify(backtestService.run(),null,2));

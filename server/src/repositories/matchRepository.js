@@ -1,0 +1,1 @@
+import { database } from '../database/databaseAdapter.js';export const matchRepository={upsertMany:m=>database.upsertMatches(m),listAll:(o={})=>database.listMatches(o),listForTeams:(names,o={})=>database.listMatches({...o,teamNames:names})};

@@ -1,0 +1,1 @@
+import'dotenv/config';import{initializeDatabase}from'../database/initializeDatabase.js';import{optimizerService}from'../services/optimizerService.js';await initializeDatabase();console.log(JSON.stringify(optimizerService.optimize(),null,2));

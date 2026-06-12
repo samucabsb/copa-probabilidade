@@ -1,5 +1,1 @@
-import { teamService } from '../services/teamService.js';
-
-export function listTeams(req, res) {
-  res.json({ teams: teamService.listTeams() });
-}
+import { teamService } from '../services/teamService.js';export const listTeams=(req,res)=>res.json({teams:teamService.listTeams()});

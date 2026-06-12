@@ -1,16 +1,17 @@
 {
   "name": "copa-probabilidade-server",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "type": "module",
   "main": "src/server.js",
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "check": "node --check src/server.js && node --check src/app.js"
+    "check": "node --check src/server.js && node --check src/app.js && node --check src/services/predictionModelService.js && node --check src/scripts/importMatches.js",
+    "test": "node --test src/tests/*.test.js",
+    "backtest": "node src/scripts/runBacktest.js",
+    "optimize": "node src/scripts/optimizeWeights.js",
+    "metrics": "node src/scripts/showMetrics.js",
+    "import:matches": "node src/scripts/importMatches.js"
   },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2"
-  }
+  "dependencies": { "cors": "^2.8.5", "dotenv": "^16.4.7", "express": "^4.21.2" }
 }

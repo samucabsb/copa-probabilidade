@@ -1,0 +1,1 @@
+import { database } from '../database/databaseAdapter.js';export const modelRepository={saveMetrics:(l,v)=>database.saveModelMetrics(l,v),listMetrics:(n=20)=>database.listModelMetrics(n),saveParams:v=>database.saveModelParams(v),getParams:()=>database.getModelParams()};

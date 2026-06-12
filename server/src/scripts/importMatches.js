@@ -1,0 +1,1 @@
+import'dotenv/config';import{initializeDatabase}from'../database/initializeDatabase.js';import{importService}from'../services/importService.js';await initializeDatabase();console.log(JSON.stringify(importService.importHistoricalMatches(),null,2));
