@@ -1,4 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; }
+button, input, select { font: inherit; }
+
+/* ── Fade-in do resultado ─────────────────────────────────────────────────── */
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fadein {
+  animation: fadein 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Barra de progresso suave ─────────────────────────────────────────────── */
+@keyframes grow-x {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
+.animate-grow { animation: grow-x 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* ── Gauge SVG ────────────────────────────────────────────────────────────── */
+circle { transition: stroke-dasharray 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* ── Scrollbar no combo ───────────────────────────────────────────────────── */
+.max-h-64::-webkit-scrollbar { width: 4px; }
+.max-h-64::-webkit-scrollbar-thumb {
+  background: #d1fae5;
+  border-radius: 99px;
+}
+
+/* ── Garante que bg-white/98 funcione ────────────────────────────────────── */
+.bg-white\/98  { background-color: rgba(255,255,255,.98); }
+.bg-white\/95  { background-color: rgba(255,255,255,.95); }
+.bg-white\/105 { background-color: rgba(255,255,255,1);   }
