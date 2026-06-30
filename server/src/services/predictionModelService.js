@@ -64,9 +64,12 @@ function dbMatchToEvent(m) {
 }
 
 // ─── Processa lista de eventos para um time ───────────────────────────────────
+const RECENCY_HALF_LIFE_DAYS = 240; // ~8 meses: um jogo dessa idade pesa metade de um jogo de hoje
+
 function parseEvents(events, team) {
+  const now = Date.now();
   return events
-    .map((e, i) => {
+    .map(e => {
       const side = detectSide(e, team);
       const hs   = Number(e.intHomeScore ?? e.homeScore);
       const as   = Number(e.intAwayScore ?? e.awayScore);
@@ -77,6 +80,9 @@ function parseEvents(events, team) {
       const xh = Number(e.xgHome);
       const xa = Number(e.xgAway);
       const hasXg = Number.isFinite(xh) && Number.isFinite(xa);
+      const date = e.dateEvent ?? e.date;
+      const parsedDate = date ? Date.parse(date) : NaN;
+      const daysAgo = Number.isFinite(parsedDate) ? Math.max(0, (now - parsedDate) / 86_400_000) : 365;
 
       return {
         opponent:   side === 'home' ? (e.strAwayTeam ?? e.awayTeam) : (e.strHomeTeam ?? e.homeTeam),
@@ -85,9 +91,9 @@ function parseEvents(events, team) {
         xgFor:      hasXg ? (side === 'home' ? xh : xa) : null,
         xgAgainst:  hasXg ? (side === 'home' ? xa : xh) : null,
         result:     gf > ga ? 'W' : gf === ga ? 'D' : 'L',
-        // Peso decrescente por recência + peso por tipo de competição
-        weight: (1 / Math.sqrt(i + 1)) * competitionWeight(e.strLeague || e.competition || ''),
-        date:       e.dateEvent ?? e.date,
+        // Decaimento exponencial por data real (meia-vida = RECENCY_HALF_LIFE_DAYS) + peso por tipo de competição
+        weight: Math.exp(-daysAgo / RECENCY_HALF_LIFE_DAYS) * competitionWeight(e.strLeague || e.competition || ''),
+        date,
         competition: e.strLeague ?? e.competition ?? 'Partida',
         homeTeam:   e.strHomeTeam ?? e.homeTeam,
         awayTeam:   e.strAwayTeam ?? e.awayTeam,
@@ -96,7 +102,10 @@ function parseEvents(events, team) {
       };
     })
     .filter(Boolean)
-    .slice(0, 24); // últimas 24 partidas válidas
+    // Mais recentes primeiro — essencial: o array de entrada (API ao vivo + base local) não vem
+    // garantidamente ordenado, e o corte abaixo precisa pegar as partidas mais NOVAS, não as primeiras do array.
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)))
+    .slice(0, 24); // últimas 24 partidas válidas (agora de fato as mais recentes)
 }
 
 // ─── Busca um time por nome normalizado ──────────────────────────────────────
@@ -151,6 +160,7 @@ function summarize(team, events, teams, dynamicRatings) {
     team,
     matches,
     matchCount: matches.length,
+    lastMatchDate: matches[0]?.date ?? null,
     adjustedAttack:          Math.max(0.12, adjustedAttack),
     adjustedDefenseConceded: Math.max(0.12, adjustedDefenseConceded),
     form:        { wins, draws, losses, formScore, last5 },
@@ -283,12 +293,17 @@ export const predictionModelService = {
     });
 
     return {
-      version: '1.0.3',
-      model:   'Ensemble v3 — Dixon-Coles · Poisson · Elo dinâmico · Forma · Monte Carlo · Contexto',
-      source:  'TheSportsDB + base histórica embutida (90+ partidas)',
+      version: '1.1.0',
+      model:   'Ensemble v3 — Dixon-Coles · Poisson · Elo dinâmico · Forma (decaimento por data) · Monte Carlo · Contexto',
+      source:  'TheSportsDB (ao vivo + Copa do Mundo 2026 importada) + base histórica embutida',
       venue,
       homeTeam,
       awayTeam,
+      dataFreshness: {
+        home:        hStats.lastMatchDate,
+        away:        aStats.lastMatchDate,
+        generatedAt: new Date().toISOString(),
+      },
       elo: {
         home: hElo,
         away: aElo,

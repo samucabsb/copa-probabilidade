@@ -1,1 +1,0 @@
-const API=import.meta.env.VITE_API_URL||'http://localhost:3333/api';export async function request(path,opt={}){const r=await fetch(API+path,{headers:{'Content-Type':'application/json'},...opt});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||'Erro na requisição');return d;}

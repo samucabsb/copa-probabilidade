@@ -14,7 +14,11 @@ export function usePrediction() {
     setSuccessMessage('');
     try {
       const data = await createPrediction(payload);
-      setPreviousPredictions(stack => prediction ? [prediction, ...stack].slice(0, 10) : stack);
+      setPreviousPredictions(stack =>
+        prediction
+          ? [{ id: `${Date.now()}-${Math.random().toString(36).slice(2)}`, createdAt: Date.now(), result: prediction }, ...stack].slice(0, 10)
+          : stack
+      );
       setPrediction(data.result);
       setSuccessMessage('Previsão gerada com sucesso.');
       return data.result;
@@ -30,7 +34,7 @@ export function usePrediction() {
     setPreviousPredictions(stack => {
       if (!stack.length) return stack;
       const [last, ...rest] = stack;
-      setPrediction(last);
+      setPrediction(last.result);
       setSuccessMessage('Previsão anterior restaurada.');
       setError('');
       return rest;
@@ -39,6 +43,7 @@ export function usePrediction() {
 
   return {
     prediction,
+    previousPredictions,
     isLoading,
     error,
     successMessage,

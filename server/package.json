@@ -6,12 +6,13 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "check": "node --check src/server.js && node --check src/app.js && node --check src/services/predictionModelService.js && node --check src/scripts/importMatches.js",
+    "check": "node --check src/server.js && node --check src/app.js && node --check src/services/predictionModelService.js && node --check src/services/worldCup2026ImportService.js && node --check src/scripts/importMatches.js && node --check src/scripts/importWorldCup2026.js",
     "test": "node --test src/tests/*.test.js",
     "backtest": "node src/scripts/runBacktest.js",
     "optimize": "node src/scripts/optimizeWeights.js",
     "metrics": "node src/scripts/showMetrics.js",
-    "import:matches": "node src/scripts/importMatches.js"
+    "import:matches": "node src/scripts/importMatches.js",
+    "import:wc2026": "node src/scripts/importWorldCup2026.js"
   },
   "dependencies": { "cors": "^2.8.5", "dotenv": "^16.4.7", "express": "^4.21.2" }
 }

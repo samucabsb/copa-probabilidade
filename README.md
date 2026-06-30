@@ -50,6 +50,7 @@ MONTE_CARLO_SIMULATIONS=50000
 MIN_BACKTEST_MATCHES_FOR_OPTIMIZATION=8
 HISTORICAL_MATCHES_CSV=src/data/sample-matches.csv
 SQUAD_STRENGTH_CSV=src/data/sample-squad-strength.csv
+WC2026_REFRESH_MINUTES=60
 ```
 
 ## Scripts
@@ -59,6 +60,7 @@ npm run dev             # roda frontend + backend
 npm run check           # valida backend e build frontend
 npm run test            # testes automatizados do backend
 npm run import:matches  # importa sample-matches.csv para a base local
+npm run import:wc2026   # importa/atualiza os resultados reais da Copa 2026 (TheSportsDB)
 npm run backtest        # roda backtest com partidas locais
 npm run optimize        # testa parâmetros e salva o melhor conjunto
 npm run metrics         # exibe métricas salvas
@@ -66,13 +68,14 @@ npm run metrics         # exibe métricas salvas
 
 ## Como funciona
 
-1. O usuário escolhe duas seleções.
-2. O backend busca jogos recentes pela TheSportsDB.
-3. Jogos Sub-17/U17 são descartados.
-4. Jogos válidos são salvos na base local.
-5. O motor combina modelos estatísticos.
-6. O resultado retorna com placar provável, probabilidades, confiança e diagnóstico.
-7. O painel de backtest mostra métricas reais da base local.
+1. Ao subir, o servidor importa automaticamente os resultados reais da Copa do Mundo 2026 já disputados (fase de grupos + mata-mata em andamento) direto da TheSportsDB, e repete essa importação periodicamente (`WC2026_REFRESH_MINUTES`) enquanto o torneio rola.
+2. O usuário escolhe duas seleções.
+3. O backend também busca o último jogo de cada seleção ao vivo pela TheSportsDB.
+4. Jogos Sub-17/U17 são descartados.
+5. Jogos válidos são salvos na base local.
+6. O motor combina modelos estatísticos, dando mais peso a jogos recentes (decaimento exponencial por data) e a competições de maior peso (Copa do Mundo > qualificatórias > amistosos).
+7. O resultado retorna com placar provável, probabilidades, confiança, diagnóstico e a data do último jogo usado de cada seleção (`dataFreshness`).
+8. O painel de backtest mostra métricas reais da base local.
 
 ## Sobre a qualidade da previsão
 

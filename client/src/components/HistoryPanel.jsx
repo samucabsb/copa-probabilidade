@@ -4,10 +4,10 @@ import { Panel } from './Panel.jsx';
 
 export function HistoryPanel({ history, isLoading, error }) {
   return (
-    <Panel title="Histórico de previsões" badge="persistente">
+    <Panel title="Histórico de previsões" badge="sessão atual">
       {isLoading && <div className="flex items-center gap-2 text-sm font-bold text-slate-500"><Loader2 className="h-4 w-4 animate-spin" /> Carregando histórico...</div>}
       {error && <div className="rounded-2xl bg-rose-50 p-3 text-sm font-bold text-rose-700">{error}</div>}
-      {!isLoading && !error && history.length === 0 && <p className="text-sm font-semibold text-slate-500">Nenhuma previsão salva ainda.</p>}
+      {!isLoading && !error && history.length === 0 && <p className="text-sm font-semibold text-slate-500">Nenhuma previsão gerada ainda nesta sessão.</p>}
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         {history.map(item => {
           const prediction = item.result;

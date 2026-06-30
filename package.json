@@ -12,7 +12,8 @@
     "backtest": "npm run backtest --prefix server",
     "optimize": "npm run optimize --prefix server",
     "metrics": "npm run metrics --prefix server",
-    "import:matches": "npm run import:matches --prefix server"
+    "import:matches": "npm run import:matches --prefix server",
+    "import:wc2026": "npm run import:wc2026 --prefix server"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
